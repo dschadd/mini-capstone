@@ -1,3 +1,9 @@
 Rails.application.routes.draw do
-  get "/products_url" => "api/products#products_method"
+  namespace :api do
+    get "/products_url" => "products#products_method"
+  end
+
+  namespace :api do
+    get "/hotdog_url" => "products#hotdog_method"
+  end
 end
