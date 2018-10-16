@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
-    get "/products_url" => "products#products_method"
-  end
-
-  namespace :api do
-    get "/hotdog_url" => "products#hotdog_method"
+    get "/products" => "products#index"
+    get "/products/:id" => "products#show"
+    post "/products" => "products#create"
   end
 end

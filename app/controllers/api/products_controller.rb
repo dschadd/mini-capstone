@@ -1,11 +1,17 @@
 class Api::ProductsController < ApplicationController
-  def products_method
+
+  def index
     @products = Product.all
-    render "football.json.jbuilder"
+    render "index.json.jbuilder"
   end
 
-  def hotdog_method
-    @hotdog = Product.find_by(id: 2)
-    render "hotdogs.json.jbuilder"
+  def show
+    @product = Product.find_by(id: params[:id])
+    render "show.json.jbuilder"
   end
+
+  def create
+    @product = Product.new
+  end
+
 end
