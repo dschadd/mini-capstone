@@ -7,7 +7,6 @@ class Product < ApplicationRecord
   validates :price, numericality: { greater_than: 0 }
   validates :description, length: { minimum: 5 }
   validates :description, length: { maximum: 500 }
-  validates :email, format: {with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i}
   
   def is_discounted?
     price < 5
@@ -22,12 +21,6 @@ class Product < ApplicationRecord
     total = price + tax
   end
 
-  def supplier
-    Supplier.find_by(id: supplier_id)
-  end
-
-  def image
-    Image.all
-  end
+  has_many :images
 
 end
