@@ -29,23 +29,11 @@ class Api::ImagesController < ApplicationController
       render json: {errors: @image.errors.full_messages}, status: :unprocessable_entity
     end    
   end
-# Need to change below "@product" "Product" "product" to image
-  # def update
-  #   @product = Product.find_by(id: params[:id])
-  #   @product.name = params["name"] || @product.name
-  #   @product.price = params["price"] || @product.price
-  #   @product.description = params["description"] || @product.description
-  #   if @product.save
-  #     render "show.json.jbuilder"
-  #   else
-  #     render json: {errors: @product.errors.full_messages}, status: :unprocessable_entity
-  #   end
-  # end
 
-  # def destroy
-  #   @product = Product.find_by(id: params[:id])
-  #   @product.destroy
-  #   render json: {message: "Product successfully deleted."}
-  # end
+  def destroy
+    @image = Image.find_by(id: params[:id])
+    @image.destroy
+    render json: {message: "Image successfully deleted."}
+  end
 
 end

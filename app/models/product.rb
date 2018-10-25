@@ -8,6 +8,10 @@ class Product < ApplicationRecord
   validates :description, length: { minimum: 5 }
   validates :description, length: { maximum: 500 }
   
+  has_many :images
+  has_many :orders
+  belongs_to :supplier
+
   def is_discounted?
     price < 5
   end
@@ -20,7 +24,5 @@ class Product < ApplicationRecord
   def total
     total = price + tax
   end
-
-  has_many :images
 
 end
