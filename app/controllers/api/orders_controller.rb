@@ -1,17 +1,17 @@
 class Api::OrdersController < ApplicationController
 
-  # def index
-  #   @products = Product.all
+  def index
+    @orders = Order.all
 
-  #   @products = @products.order(:id => :asc)
+    @orders = @orders.order(:id => :asc)
     
   #   search_name = params[:search]
   #   if search_name
   #     @products = @products.where("name ILIKE ?", "%#{search_name}%")
   #   end
 
-  #   render "index.json.jbuilder"
-  # end
+    render "index.json.jbuilder"
+  end
 
   # def show
   #   @product = Product.find_by(id: params[:id])
@@ -23,12 +23,12 @@ class Api::OrdersController < ApplicationController
     product = Product.find_by(id: params["product_id"])
 
     @order = Order.new(
-      product_id: params["product_id"],
+      product_id: product.id,
       quantity: params["quantity"].to_i,
       user_id: current_user.id,
-      # subtotal: product.price * params["quantity"].to_i,
-      # tax: product.price * params["quantity"].to_i * tax,
-      # total: total
+      subtotal: product.price * params["quantity"].to_i,
+      tax: product.price * params["quantity"].to_i * product.tax,
+      total: product.total
       )
     if @order.save
       render json: {message: "order placed successfully"}
