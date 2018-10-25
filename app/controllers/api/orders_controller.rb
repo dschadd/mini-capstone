@@ -1,15 +1,9 @@
 class Api::OrdersController < ApplicationController
 
+  before_action :authenticate_user
+
   def index
-    @orders = Order.all
-
-    @orders = @orders.order(:id => :asc)
-    
-  #   search_name = params[:search]
-  #   if search_name
-  #     @products = @products.where("name ILIKE ?", "%#{search_name}%")
-  #   end
-
+    @orders = current_user.orders
     render "index.json.jbuilder"
   end
 
@@ -28,7 +22,7 @@ class Api::OrdersController < ApplicationController
       user_id: current_user.id,
       subtotal: product.price * params["quantity"].to_i,
       tax: product.price * params["quantity"].to_i * product.tax,
-      total: product.total
+      total: product.total * params["quantity"].to_i
       )
     if @order.save
       render json: {message: "order placed successfully"}
