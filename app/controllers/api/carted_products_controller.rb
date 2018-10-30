@@ -22,4 +22,11 @@ class Api::CartedProductsController < ApplicationController
     render "index.json.jbuilder"
   end
 
+  def destroy
+    @carted_product = CartedProduct.find_by("user_id = ? AND status LIKE ? AND product_id = ?", current_user.id, "carted", params["product_id"])
+    @carted_product.status = "removed"
+    @carted_product.save
+    render json: {message: "Carted product successfully deleted."}
+  end
+
 end
