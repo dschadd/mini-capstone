@@ -14,15 +14,25 @@ class Api::OrdersController < ApplicationController
 
   def create
 
-    product = Product.find_by(id: params["product_id"])
+    carted_products = CartedProduct.where("user_id = ? AND status LIKE ?", current_user.id, "carted")
+
+    subtotal = 0
+    tax = 0
+    total = 0
+
+    carted_products.each do |carted_product|
+
+      subtotal = subtotal + carted_product.product.price * carted_product.quantity
+      tax = tax + carted_product.product.tax * carted_product.quantity
+      total = total + carted_product.product.total * carted_product.product.total
+      carted_product.update(status: "purchased")
+    end
 
     @order = Order.new(
-      product_id: product.id,
-      quantity: params["quantity"].to_i,
       user_id: current_user.id,
-      subtotal: product.price * params["quantity"].to_i,
-      tax: product.price * params["quantity"].to_i * product.tax,
-      total: product.total * params["quantity"].to_i
+      subtotal: subtotal,
+      tax: tax,
+      total: total
       )
     if @order.save
       render json: {message: "order placed successfully"}
