@@ -25,7 +25,7 @@ class Api::OrdersController < ApplicationController
       subtotal = subtotal + carted_product.product.price * carted_product.quantity
       tax = tax + carted_product.product.tax * carted_product.quantity
       total = total + carted_product.product.total * carted_product.product.total
-      carted_product.update(status: "purchased")
+      
     end
 
     @order = Order.new(
@@ -39,6 +39,9 @@ class Api::OrdersController < ApplicationController
     else
       render json: {errors: @order.errors.full_messages}, status: :unprocessable_entity
     end
+
+    carted_product.update_all(status: "purchased", order_id: @order.id)
+
   end
 
 end
