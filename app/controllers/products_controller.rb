@@ -35,3 +35,5 @@ class ProductsController < ApplicationController
   end
 
 end
+
+# <option value="<%=@product.supplier_id%>" selected><%=@product.supplier.name
