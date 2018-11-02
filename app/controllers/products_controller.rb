@@ -34,6 +34,15 @@ class ProductsController < ApplicationController
     render "edit.html.erb"
   end
 
+  def update
+    @product = Product.find_by(id: params[:id])
+    @product.name = params[:name]
+    @product.description = params[:description]
+    @product.image_url = params[:image_url]
+    @product.supplier_id = params[:supplier_id]
+    @product.save
+    redirect_to "/products/#{@product.id}"
+  end
+
 end
 
-# <option value="<%=@product.supplier_id%>" selected><%=@product.supplier.name
